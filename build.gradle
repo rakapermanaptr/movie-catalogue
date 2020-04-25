@@ -15,6 +15,7 @@ buildscript {
 
         archLifecycleVersion = '2.1.0'
 
+        materialVersion = '1.0.0'
         recyclerViewVersion = '1.0.0'
         glideVersion = '4.8.0'
 
