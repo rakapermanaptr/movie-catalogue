@@ -1,4 +1,4 @@
-package com.example.moviecatalogue.domain.entity
+package com.example.moviecatalogue.data.source.local.entity
 
 import com.squareup.moshi.Json
 

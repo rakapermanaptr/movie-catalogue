@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.example.moviecatalogue.R
-import com.example.moviecatalogue.domain.entity.Movie
-import com.example.moviecatalogue.domain.entity.TvShow
+import com.example.moviecatalogue.data.source.local.entity.Movie
+import com.example.moviecatalogue.data.source.local.entity.TvShow
 import com.example.moviecatalogue.utils.*
 import kotlinx.android.synthetic.main.activity_detail.*
 

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.moviecatalogue.R
-import com.example.moviecatalogue.domain.entity.Movie
+import com.example.moviecatalogue.data.source.local.entity.Movie
 import com.example.moviecatalogue.utils.BASE_IMAGE_URL
 import kotlinx.android.synthetic.main.item_poster.view.*
 
