@@ -8,16 +8,16 @@ import com.example.moviecatalogue.data.source.local.entity.TvShow
 import com.example.moviecatalogue.data.source.local.entity.TvShowDetail
 import com.example.moviecatalogue.data.source.remote.RemoteDataSource
 
-class MovieRepository private constructor(private val remoteDataSource: RemoteDataSource) :
+class FakeMovieRepository(private val remoteDataSource: RemoteDataSource) :
     IMovieRepository {
 
     companion object {
         @Volatile
-        private var instance: MovieRepository? = null
+        private var instance: FakeMovieRepository? = null
 
-        fun getInstance(remoteDataSource: RemoteDataSource): MovieRepository =
+        fun getInstance(remoteDataSource: RemoteDataSource): FakeMovieRepository =
             instance ?: synchronized(this) {
-                instance ?: MovieRepository(remoteDataSource)
+                instance ?: FakeMovieRepository(remoteDataSource)
             }
     }
 

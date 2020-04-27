@@ -1,11 +1,15 @@
 package com.example.moviecatalogue.presentation.detail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.moviecatalogue.data.MovieRepository
 import com.example.moviecatalogue.data.source.local.entity.Movie
+import com.example.moviecatalogue.data.source.local.entity.MovieDetail
 import com.example.moviecatalogue.data.source.local.entity.TvShow
+import com.example.moviecatalogue.data.source.local.entity.TvShowDetail
 import com.example.moviecatalogue.utils.DataDummy
 
-class DetailViewModel : ViewModel() {
+class DetailViewModel(private val movieRepository: MovieRepository) : ViewModel() {
 
     private var movieId: Int = 0
 
@@ -19,28 +23,8 @@ class DetailViewModel : ViewModel() {
         this.tvShowId = tvShowId
     }
 
-    fun getMovie(): Movie {
-        lateinit var movie: Movie
-        val movies = DataDummy.generateDummyMovies()
-        for (movieEntity in movies) {
-            if (movieEntity.id == movieId) {
-                movie = movieEntity
-            }
-        }
+    fun getMovie(): LiveData<Movie> = movieRepository.getMovieDetail(movieId)
 
-        return movie
-    }
-
-    fun getTvShow(): TvShow {
-        lateinit var tvShow: TvShow
-        val tvShows = DataDummy.generateTvShows()
-        for (tvShowEntity in tvShows) {
-            if (tvShowEntity.id == tvShowId) {
-                tvShow = tvShowEntity
-            }
-        }
-
-        return tvShow
-    }
+    fun getTvShow(): LiveData<TvShow> = movieRepository.getTvShowDetail(tvShowId)
 
 }

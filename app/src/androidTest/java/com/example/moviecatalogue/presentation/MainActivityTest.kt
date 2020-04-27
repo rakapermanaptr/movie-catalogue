@@ -2,14 +2,18 @@ package com.example.moviecatalogue.presentation
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
+import com.example.moviecatalogue.FakeData
 import com.example.moviecatalogue.R
 import com.example.moviecatalogue.utils.DataDummy
+import com.example.moviecatalogue.utils.EspressoIdlingResource
 import kotlinx.android.synthetic.main.fragment_movies.*
+import org.junit.After
 import org.junit.Before
 
 import org.junit.Assert.*
@@ -18,11 +22,21 @@ import org.junit.Test
 
 class MainActivityTest {
 
-    private val dummyMovies = DataDummy.generateDummyMovies()
-    private val dummyTvShows = DataDummy.generateTvShows()
+    private val dummyMovies = FakeData.getDummyRemoteMovies()
+    private val dummyTvShows = FakeData.getDummyRemoteTvShows()
 
     @get:Rule
     var activityRule = ActivityTestRule(MainActivity::class.java)
+
+    @Before
+    fun setUp() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.idlingResource)
+    }
+
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.idlingResource)
+    }
 
     @Test
     fun loadMovies() {
