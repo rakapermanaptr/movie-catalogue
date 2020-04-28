@@ -4,7 +4,7 @@ import com.example.moviecatalogue.data.source.local.entity.Movie
 import com.example.moviecatalogue.data.source.local.entity.TvShow
 
 object FakeData {
-    fun getDummyRemoteMovies(): List<Movie> {
+    fun getRemoteDummyMovies(): List<Movie> {
         return listOf(
             Movie(
                 297761,
@@ -149,7 +149,7 @@ object FakeData {
         )
     }
 
-    fun getDummyRemoteTvShows(): List<TvShow> {
+    fun getRemoteDummyTvShows(): List<TvShow> {
         return listOf(
             TvShow(
                 67419,
@@ -291,6 +291,26 @@ object FakeData {
                 "/rwwfODudIIeyESjNLsnzvYWvMhJ.jpg",
                 "Jeonokseo, the most horrifying prison in Joseon, is where Ok Nyeo was born. This genius girl learns the art of living from the most eccentric people of the time. Despite the difficulties, Ok Nyeo grows up to introduce a human rights institution of Joseon to protect the weak."
             )
+        )
+    }
+
+    fun getRemoteDummyMovie(movieId: Int): Movie {
+        return Movie(
+            movieId,
+            "/e1mjopzAS2KNsvpbpahQ1a6SkSn.jpg",
+            "Suicide Squad",
+            "/ndlQ2Cuc3cjTL7lTynw6I4boP4S.jpg",
+            "From DC Comics comes the Suicide Squad, an antihero team of incarcerated supervillains who act as deniable assets for the United States government, undertaking high-risk black ops missions in exchange for commuted prison sentences."
+        )
+    }
+
+    fun getRemoteDummyTvShow(tvShowId: Int): TvShow {
+        return  TvShow(
+            tvShowId,
+            "Victoria",
+            "/zra8NrzxaEeunRWJmUm3HZOL4sd.jpg",
+            "/b0BckgEovxYLBbIk5xXyWYQpmlT.jpg",
+            "The early life of Queen Victoria, from her accession to the throne at the tender age of 18 through to her courtship and marriage to Prince Albert. Victoria went on to rule for 63 years, and was the longest-serving monarch until she was overtaken by Elizabeth II on 9th September 2016. Rufus Sewell was Victoria’s first prime minister; the two immediately connected and their intimate friendship became a popular source of gossip that threatened to destabilise the Government – angering both Tory and Whigs alike."
         )
     }
 }

@@ -7,11 +7,11 @@ object FakeData {
     fun getDummyRemoteMovies(): List<Movie> {
         return listOf(
             Movie(
-                454626,
-                "/e1mjopzAS2KNsvpbpahQ1a6SkSn.jpg",
-                "Sonic the Hedgehog",
-                "/ndlQ2Cuc3cjTL7lTynw6I4boP4S.jpg",
-                 "Based on the global blockbuster videogame franchise from Sega, Sonic the Hedgehog tells the story of the world’s speediest hedgehog as he embraces his new home on Earth. In this live-action adventure comedy, Sonic and his new best friend team up to defend the planet from the evil genius Dr. Robotnik and his plans for world domination."
+                263115,
+                "/fnbjcRDYn6YviCcePDnGdyAkYsB.jpg",
+                "Logan",
+                "/yEv8c6i79vk06sZDC3Z9D8HQLVV.jpg",
+                "In the near future, a weary Logan cares for an ailing Professor X in a hideout on the Mexican border. But Logan's attempts to hide from the world and his legacy are upended when a young mutant arrives, pursued by dark forces."
             ),
             Movie(
                 324668,
@@ -152,11 +152,11 @@ object FakeData {
     fun getDummyRemoteTvShows(): List<TvShow> {
         return listOf(
             TvShow(
-                67419,
-                "The Flash",
-                "/zra8NrzxaEeunRWJmUm3HZOL4sd.jpg",
-                "/b0BckgEovxYLBbIk5xXyWYQpmlT.jpg",
-                "After a particle accelerator causes a freak storm, CSI Investigator Barry Allen is struck by lightning and falls into a coma. Months later he awakens with the power of super speed, granting him the ability to move through Central City like an unseen guardian angel. Though initially excited by his newfound powers, Barry is shocked to discover he is not the only \"meta-human\" who was created in the wake of the accelerator explosion -- and not everyone is using their new powers for good. Barry partners with S.T.A.R. Labs and dedicates his life to protect the innocent. For now, only a few close friends and associates know that Barry is literally the fastest man alive, but it won't be long before the world learns what Barry Allen has become...The Flash."
+                2527,
+                "Emmerdale",
+                "/ualtuRRNYa9Fj61wSuBVcuvaVDP.jpg",
+                "/boPsYdMOZQj6FJy9xXmAkrEK7ry.jpg",
+                "The lives of several families in the Yorkshire Dales revolve around a farm and the nearby village. With murders, affairs, lies, deceit, laughter and tears, it's all there in the village."
             ),
             TvShow(
                 66433,

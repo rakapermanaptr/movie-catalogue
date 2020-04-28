@@ -2,7 +2,7 @@ package com.example.moviecatalogue.utils
 
 import android.app.Activity
 import android.content.Intent
-import com.example.moviecatalogue.presentation.detail.DetailActivity
+import com.example.moviecatalogue.ui.detail.DetailActivity
 
 object NavigationsUtils {
 

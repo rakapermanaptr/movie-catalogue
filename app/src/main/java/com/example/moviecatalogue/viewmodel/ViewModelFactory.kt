@@ -5,9 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.moviecatalogue.data.MovieRepository
 import com.example.moviecatalogue.di.Injection
-import com.example.moviecatalogue.presentation.detail.DetailViewModel
-import com.example.moviecatalogue.presentation.movies.MoviesViewModel
-import com.example.moviecatalogue.presentation.tvshows.TvShowViewModel
+import com.example.moviecatalogue.ui.detail.DetailViewModel
+import com.example.moviecatalogue.ui.catalogue.movies.MoviesViewModel
+import com.example.moviecatalogue.ui.catalogue.tvshows.TvShowViewModel
+import com.example.moviecatalogue.ui.favorite.movies.FavMoviesViewModel
+import com.example.moviecatalogue.ui.favorite.tvshows.FavTvShowsViewModel
 
 class ViewModelFactory private constructor(private val movieRepository: MovieRepository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -18,7 +20,7 @@ class ViewModelFactory private constructor(private val movieRepository: MovieRep
 
         fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this) {
-                instance ?: ViewModelFactory(Injection.provideRepository())
+                instance ?: ViewModelFactory(Injection.provideRepository(context))
             }
     }
 
@@ -33,6 +35,12 @@ class ViewModelFactory private constructor(private val movieRepository: MovieRep
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(movieRepository) as T
+            }
+            modelClass.isAssignableFrom(FavMoviesViewModel::class.java) -> {
+                FavMoviesViewModel(movieRepository) as T
+            }
+            modelClass.isAssignableFrom(FavTvShowsViewModel::class.java) -> {
+                FavTvShowsViewModel(movieRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel class : ${modelClass.name}")
         }
