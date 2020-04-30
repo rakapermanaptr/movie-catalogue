@@ -3,22 +3,32 @@ package com.example.moviecatalogue.ui.catalogue.movies
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.moviecatalogue.R
 import com.example.moviecatalogue.data.source.local.entity.Movie
 import com.example.moviecatalogue.utils.BASE_IMAGE_URL
+import com.example.moviecatalogue.utils.MOVIE
+import com.example.moviecatalogue.utils.NavigationsUtils
 import kotlinx.android.synthetic.main.item_poster.view.*
 
-class MoviesAdapter(private val onItemClick: (movie: Movie) -> Unit) :
-    RecyclerView.Adapter<MoviesAdapter.MovieViewHolder>() {
+class MoviesAdapter internal constructor() :
+    PagedListAdapter<Movie, MoviesAdapter.MovieViewHolder>(DIFF_CALLBACK) {
 
-    private val movieList = mutableListOf<Movie>()
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
+            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem.id == newItem.id
+            }
 
-    fun addItems(movies: List<Movie>) {
-        movieList.addAll(movies)
-        notifyDataSetChanged()
+            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem == newItem
+            }
+
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -27,12 +37,9 @@ class MoviesAdapter(private val onItemClick: (movie: Movie) -> Unit) :
         return MovieViewHolder(view)
     }
 
-    override fun getItemCount(): Int = movieList.size
-
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie = movieList[position]
+        val movie = getItem(position) as Movie
         holder.bind(movie)
-        holder.itemView.setOnClickListener { onItemClick(movie) }
     }
 
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -40,11 +47,17 @@ class MoviesAdapter(private val onItemClick: (movie: Movie) -> Unit) :
         fun bind(movie: Movie) {
             Glide.with(itemView)
                 .load(BASE_IMAGE_URL + movie.posterPath)
-                .apply(RequestOptions.placeholderOf(R.drawable.ic_movies)
-                    .error(R.drawable.ic_movies))
+                .apply(
+                    RequestOptions.placeholderOf(R.drawable.ic_movies)
+                        .error(R.drawable.ic_movies)
+                )
                 .into(itemView.img_poster)
 
             itemView.tv_title.text = movie.title
+
+            itemView.setOnClickListener {
+                NavigationsUtils.navigateToDetail(itemView.context, movie.id!!, MOVIE)
+            }
         }
 
     }

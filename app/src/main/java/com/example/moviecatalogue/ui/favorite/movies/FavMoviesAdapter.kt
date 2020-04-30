@@ -1,24 +1,33 @@
 package com.example.moviecatalogue.ui.favorite.movies
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.moviecatalogue.R
 import com.example.moviecatalogue.data.source.local.entity.Movie
-import com.example.moviecatalogue.utils.BASE_IMAGE_URL
+import com.example.moviecatalogue.ui.detail.DetailActivity
+import com.example.moviecatalogue.utils.*
 import kotlinx.android.synthetic.main.item_poster.view.*
 
-class FavMoviesAdapter(private val onItemClick: (movie: Movie) -> Unit) :
-    RecyclerView.Adapter<FavMoviesAdapter.MovieViewHolder>() {
+class FavMoviesAdapter internal constructor(): PagedListAdapter<Movie, FavMoviesAdapter.MovieViewHolder>(DIFF_CALLBACK){
 
-    private val movieList = mutableListOf<Movie>()
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
+            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem.id == newItem.id
+            }
 
-    fun addItems(movies: List<Movie>) {
-        movieList.addAll(movies)
-        notifyDataSetChanged()
+            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem == newItem
+            }
+
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -27,12 +36,9 @@ class FavMoviesAdapter(private val onItemClick: (movie: Movie) -> Unit) :
         return MovieViewHolder(view)
     }
 
-    override fun getItemCount(): Int = movieList.size
-
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie = movieList[position]
+        val movie = getItem(position) as Movie
         holder.bind(movie)
-        holder.itemView.setOnClickListener { onItemClick(movie) }
     }
 
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,6 +51,13 @@ class FavMoviesAdapter(private val onItemClick: (movie: Movie) -> Unit) :
                 .into(itemView.img_poster)
 
             itemView.tv_title.text = movie.title
+
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, DetailActivity::class.java)
+                intent.putExtra(KEY_ID, movie.id)
+                intent.putExtra(KEY_TYPE, MOVIE)
+                itemView.context.startActivity(intent)
+            }
         }
 
     }

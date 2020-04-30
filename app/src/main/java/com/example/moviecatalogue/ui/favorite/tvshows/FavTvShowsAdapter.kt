@@ -1,24 +1,33 @@
 package com.example.moviecatalogue.ui.favorite.tvshows
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.moviecatalogue.R
 import com.example.moviecatalogue.data.source.local.entity.TvShow
-import com.example.moviecatalogue.utils.BASE_IMAGE_URL
+import com.example.moviecatalogue.ui.detail.DetailActivity
+import com.example.moviecatalogue.utils.*
 import kotlinx.android.synthetic.main.item_poster.view.*
 
-class FavTvShowsAdapter(private val onItemClick: (tvShow: TvShow) -> Unit) :
-    RecyclerView.Adapter<FavTvShowsAdapter.TvShowViewHolder>() {
+class FavTvShowsAdapter internal constructor() : PagedListAdapter<TvShow, FavTvShowsAdapter.TvShowViewHolder>(DIFF_CALLBACK){
 
-    private val tvShowList = mutableListOf<TvShow>()
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TvShow>() {
+            override fun areItemsTheSame(oldItem: TvShow, newItem: TvShow): Boolean {
+                return oldItem.id == newItem.id
+            }
 
-    fun addItems(tvShows: List<TvShow>) {
-        tvShowList.addAll(tvShows)
-        notifyDataSetChanged()
+            override fun areContentsTheSame(oldItem: TvShow, newItem: TvShow): Boolean {
+                return oldItem == newItem
+            }
+
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowViewHolder {
@@ -27,12 +36,9 @@ class FavTvShowsAdapter(private val onItemClick: (tvShow: TvShow) -> Unit) :
         return TvShowViewHolder(view)
     }
 
-    override fun getItemCount(): Int = tvShowList.size
-
     override fun onBindViewHolder(holder: TvShowViewHolder, position: Int) {
-        val tvShow = tvShowList[position]
+        val tvShow = getItem(position) as TvShow
         holder.bind(tvShow)
-        holder.itemView.setOnClickListener { onItemClick(tvShow) }
     }
 
     class TvShowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -46,6 +52,15 @@ class FavTvShowsAdapter(private val onItemClick: (tvShow: TvShow) -> Unit) :
                 .into(itemView.img_poster)
 
             itemView.tv_title.text = tvShow.name
+
+            itemView.setOnClickListener {
+                itemView.setOnClickListener {
+                    val intent = Intent(itemView.context, DetailActivity::class.java)
+                    intent.putExtra(KEY_ID, tvShow.id)
+                    intent.putExtra(KEY_TYPE, TV_SHOW)
+                    itemView.context.startActivity(intent)
+                }
+            }
         }
 
     }

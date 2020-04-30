@@ -3,6 +3,7 @@ package com.example.moviecatalogue.ui.favorite.movies
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.example.moviecatalogue.data.MovieRepository
 import com.example.moviecatalogue.data.source.local.entity.Movie
 import com.example.moviecatalogue.utils.FakeData
@@ -30,7 +31,10 @@ class FavMoviesViewModelTest {
     private lateinit var movieRepository: MovieRepository
 
     @Mock
-    private lateinit var observer: Observer<List<Movie>>
+    private lateinit var observer: Observer<PagedList<Movie>>
+
+    @Mock
+    private lateinit var pagedList: PagedList<Movie>
 
     @Before
     fun setUp() {
@@ -39,17 +43,18 @@ class FavMoviesViewModelTest {
 
     @Test
     fun getFavoriteMovies_completed_returnFavoriteMovies() {
-        val dummyMovies = FakeData.getRemoteDummyMovies()
-        val movies = MutableLiveData<List<Movie>>()
-        movies.value = dummyMovies
+        val dummyMovie = pagedList
+        `when`(dummyMovie.size).thenReturn(10)
+        val movies = MutableLiveData<PagedList<Movie>>()
+        movies.value = dummyMovie
 
         `when`(movieRepository.getFavoriteMovies()).thenReturn(movies)
-        val moviesEntities = viewModel.getFavoriteMovies().value
+        val movieEntities = viewModel.getFavoriteMovies().value
         verify(movieRepository).getFavoriteMovies()
-        assertNotNull(moviesEntities)
-        assertEquals(20, moviesEntities?.size)
+        assertNotNull(movieEntities)
+        assertEquals(10, movieEntities?.size)
 
         viewModel.getFavoriteMovies().observeForever(observer)
-        verify(observer).onChanged(dummyMovies)
+        verify(observer).onChanged(dummyMovie)
     }
 }

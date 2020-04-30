@@ -28,6 +28,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Initialize id and type from MoviesFragment and TvShowsFragment
         val id = intent.getIntExtra(KEY_ID, 0)
@@ -146,12 +147,20 @@ class DetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_favorite) {
-            when (type) {
-                MOVIE -> viewModel.setFavoriteMovie()
-                TV_SHOW -> viewModel.setFavoriteTvShow()
+        when (item.itemId) {
+            R.id.action_favorite -> {
+                when (type) {
+                    MOVIE -> viewModel.setFavoriteMovie()
+                    TV_SHOW -> viewModel.setFavoriteTvShow()
+                }
+                return true
             }
-            return true
+            android.R.id.home -> {
+                finish()
+
+                return true
+            }
+
         }
         return super.onOptionsItemSelected(item)
     }

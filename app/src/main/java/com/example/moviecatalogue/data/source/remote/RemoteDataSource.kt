@@ -7,7 +7,6 @@ import com.example.moviecatalogue.data.source.local.entity.Movie
 import com.example.moviecatalogue.data.source.local.entity.TvShow
 import com.example.moviecatalogue.data.source.remote.network.ApiService
 import com.example.moviecatalogue.utils.EspressoIdlingResource
-import com.example.moviecatalogue.utils.Result
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

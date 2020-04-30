@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.moviecatalogue.R
 import com.example.moviecatalogue.data.source.local.entity.Movie
+import com.example.moviecatalogue.utils.hide
+import com.example.moviecatalogue.utils.show
 import com.example.moviecatalogue.utils.toast
 import com.example.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_fav_movies.*
@@ -20,16 +23,19 @@ import kotlinx.android.synthetic.main.fragment_fav_movies.*
  */
 class FavMoviesFragment : Fragment() {
 
-    private val favMoviesAdapter = FavMoviesAdapter {favMovie ->
-        context?.toast(favMovie.title)
-    }
+    private lateinit var viewModel: FavMoviesViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         val factory = ViewModelFactory.getInstance(requireContext())
-        val viewModel = ViewModelProviders.of(this, factory)[FavMoviesViewModel::class.java]
+        viewModel = ViewModelProviders.of(this, factory)[FavMoviesViewModel::class.java]
 
+        observeViewModel()
+
+    }
+
+    private fun observeViewModel() {
         showLoading()
         viewModel.getFavoriteMovies().observe(this, Observer { favMovies ->
             if (favMovies != null) {
@@ -39,8 +45,9 @@ class FavMoviesFragment : Fragment() {
         })
     }
 
-    private fun showMovieList(movies: List<Movie>?) {
-        favMoviesAdapter.addItems(movies!!)
+    private fun showMovieList(movies: PagedList<Movie>?) {
+        val favMoviesAdapter = FavMoviesAdapter()
+        favMoviesAdapter.submitList(movies!!)
 
         rv_movies.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -49,11 +56,16 @@ class FavMoviesFragment : Fragment() {
     }
 
     private fun showLoading() {
-        progress_bar.visibility = View.VISIBLE
+        progress_bar.show()
     }
 
     private fun hideLoading() {
-        progress_bar.visibility = View.GONE
+        progress_bar.hide()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        observeViewModel()
     }
 
     override fun onCreateView(

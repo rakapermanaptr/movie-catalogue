@@ -3,6 +3,7 @@ package com.example.moviecatalogue.ui.catalogue.movies
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.example.moviecatalogue.data.MovieRepository
 import com.example.moviecatalogue.data.source.local.entity.Movie
 import com.example.moviecatalogue.utils.FakeData
@@ -32,7 +33,10 @@ class MoviesViewModelTest {
     private var movieRepository = Mockito.mock(MovieRepository::class.java)
 
     @Mock
-    private lateinit var observer: Observer<Resource<List<Movie>>>
+    private lateinit var observer: Observer<Resource<PagedList<Movie>>>
+
+    @Mock
+    private lateinit var pagedList: PagedList<Movie>
 
     @Before
     fun setUp() {
@@ -42,17 +46,19 @@ class MoviesViewModelTest {
 
     @Test
     fun getMovies_completed_returnListOfMovies() {
-        val dummyMovies = Resource.success(FakeData.getRemoteDummyMovies())
-        val movies = MutableLiveData<Resource<List<Movie>>>()
+        val dummyMovies = Resource.success(pagedList)
+        `when`(dummyMovies.data?.size).thenReturn(10)
+        val movies = MutableLiveData<Resource<PagedList<Movie>>>()
         movies.value = dummyMovies
 
         `when`(movieRepository.getMovies()).thenReturn(movies)
         val moviesEntities = viewModel.getMovies().value?.data
         verify(movieRepository).getMovies()
         assertNotNull(moviesEntities)
-        assertEquals(20, moviesEntities?.size)
+        assertEquals(10, moviesEntities?.size)
 
         viewModel.getMovies().observeForever(observer)
         verify(observer).onChanged(dummyMovies)
+
     }
 }

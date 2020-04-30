@@ -58,10 +58,11 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion"
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofitKotlinCoroutinesAdapter"
 
-    /* Architecture Component -- ViewModel, Room */
+    /* Architecture Component -- ViewModel, Room, Paging */
     implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.paging:paging-runtime:$pagingVersion"
 
     /* UI */
     implementation "com.google.android.material:material:$materialVersion"

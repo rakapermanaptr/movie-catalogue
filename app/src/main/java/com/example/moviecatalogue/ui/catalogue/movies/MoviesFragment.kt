@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.moviecatalogue.R
 import com.example.moviecatalogue.data.source.local.entity.Movie
-import com.example.moviecatalogue.utils.MOVIE
-import com.example.moviecatalogue.utils.NavigationsUtils
-import com.example.moviecatalogue.utils.toast
+import com.example.moviecatalogue.utils.*
 import com.example.moviecatalogue.viewmodel.ViewModelFactory
 import com.example.moviecatalogue.vo.Status
 import kotlinx.android.synthetic.main.fragment_movies.*
@@ -22,11 +21,6 @@ import kotlinx.android.synthetic.main.fragment_movies.*
  * A simple [Fragment] subclass.
  */
 class MoviesFragment : Fragment() {
-
-    private val moviesAdapter = MoviesAdapter {movie ->
-        context?.toast(movie.title)
-        NavigationsUtils.navigateToDetail(requireActivity(), movie.id!!, MOVIE)
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -52,8 +46,9 @@ class MoviesFragment : Fragment() {
 
     }
 
-    private fun showMovieList(movies: List<Movie>?) {
-        moviesAdapter.addItems(movies!!)
+    private fun showMovieList(movies: PagedList<Movie>?) {
+        val moviesAdapter = MoviesAdapter()
+        moviesAdapter.submitList(movies!!)
 
         rv_movies.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -62,11 +57,11 @@ class MoviesFragment : Fragment() {
     }
 
     private fun showLoading() {
-        progress_bar.visibility = View.VISIBLE
+        progress_bar.show()
     }
 
     private fun hideLoading() {
-        progress_bar.visibility = View.GONE
+        progress_bar.hide()
     }
 
     override fun onCreateView(

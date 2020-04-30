@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.moviecatalogue.R
 import com.example.moviecatalogue.data.source.local.entity.TvShow
-import com.example.moviecatalogue.utils.NavigationsUtils
-import com.example.moviecatalogue.utils.TV_SHOW
-import com.example.moviecatalogue.utils.toast
+import com.example.moviecatalogue.utils.*
 import com.example.moviecatalogue.viewmodel.ViewModelFactory
 import com.example.moviecatalogue.vo.Status
 import kotlinx.android.synthetic.main.fragment_tv_shows.*
@@ -22,11 +21,6 @@ import kotlinx.android.synthetic.main.fragment_tv_shows.*
  * A simple [Fragment] subclass.
  */
 class TvShowsFragment : Fragment() {
-
-    private val tvShowsAdapter = TvShowsAdapter { tvShow ->
-        context?.toast(tvShow.name)
-        NavigationsUtils.navigateToDetail(requireActivity(), tvShow.id!!, TV_SHOW)
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -51,8 +45,9 @@ class TvShowsFragment : Fragment() {
         }
     }
 
-    private fun showTvShows(tvShows: List<TvShow>?) {
-        tvShowsAdapter.addItems(tvShows!!)
+    private fun showTvShows(tvShows: PagedList<TvShow>?) {
+        val tvShowsAdapter = TvShowsAdapter()
+        tvShowsAdapter.submitList(tvShows!!)
 
         rv_tvShows.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -61,11 +56,11 @@ class TvShowsFragment : Fragment() {
     }
 
     private fun showLoading() {
-        progress_bar.visibility = View.VISIBLE
+        progress_bar.show()
     }
 
     private fun hideLoading() {
-        progress_bar.visibility = View.GONE
+        progress_bar.hide()
     }
 
     override fun onCreateView(
