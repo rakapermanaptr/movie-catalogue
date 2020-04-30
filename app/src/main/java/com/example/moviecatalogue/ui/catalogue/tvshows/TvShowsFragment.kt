@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.moviecatalogue.R
@@ -50,7 +51,7 @@ class TvShowsFragment : Fragment() {
         tvShowsAdapter.submitList(tvShows!!)
 
         rv_tvShows.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+            layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = tvShowsAdapter
         }
     }
